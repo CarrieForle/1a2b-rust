@@ -1,4 +1,8 @@
+use rand;
+
+#[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn test_ab_good() {
@@ -17,7 +21,7 @@ mod tests {
         assert!(read_ab("4a2b").is_err());
         assert!(read_ab("3a1b").is_err());
         assert!(read_ab("what the fuck").is_err());
-}
+    }
 
     #[test]
     fn test_pick() {
@@ -48,7 +52,7 @@ mod tests {
 struct AB(u32, u32);
 
 pub fn start_game() {
-
+    
 }
 
 fn read_ab(ab_str: &str) -> Result<AB, &'static str> {
