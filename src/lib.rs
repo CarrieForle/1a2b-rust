@@ -46,5 +46,16 @@ fn read_ab(ab_str: &str) -> Result<AB, &'static str> {
     
     Err("Invalid AB string")
 }
+
+fn pick() -> String {
+    let mut nums = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let mut res = 0;
+
+    for _ in 0..4 {
+        let index = rand::random::<usize>() % nums.len();
+        res = res * 10 + nums[index];
+        nums.remove(index);
     }
+
+    res.to_string()
 }
