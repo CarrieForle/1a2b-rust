@@ -1,5 +1,22 @@
 mod tests {
 
+    #[test]
+    fn test_ab_good() {
+        assert_eq!(Ok(AB(1, 1)), read_ab("1a1b"));
+        assert_eq!(Ok(AB(2, 2)), read_ab("2A2B"));
+        assert_eq!(Ok(AB(0, 4)), read_ab("4B"));
+        assert_eq!(Ok(AB(3, 0)), read_ab("3a"));
+        assert_eq!(Ok(AB(0, 0)), read_ab("0"));
+        assert_eq!(Ok(AB(0, 0)), read_ab("0a0b"));
+    }
+    
+    #[test]
+    fn test_ab_fail() {
+        assert!(read_ab("-1a5b").is_err());
+        assert!(read_ab("").is_err());
+        assert!(read_ab("4a2b").is_err());
+        assert!(read_ab("3a1b").is_err());
+        assert!(read_ab("what the fuck").is_err());
 }
 
     #[test]
