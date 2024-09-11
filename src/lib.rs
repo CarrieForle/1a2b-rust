@@ -2,6 +2,32 @@ mod tests {
 
 }
 
+    #[test]
+    fn test_pick() {
+        for _ in 0..10000 {
+            let picked = pick();
+
+            assert_eq!(4, picked.len());
+            let picked_array: &[u8] = picked.as_bytes();
+
+            let mut is_not_duplicated = true;
+
+            'outer: for i in 0..4 {
+                for j in i+1..4 {
+                    if picked_array[i] == picked_array[j] {
+                        is_not_duplicated = false;
+                        break 'outer;
+                    }
+                }
+            }
+
+            assert!(is_not_duplicated, "{picked} is duplicated");
+        }
+    }
+}
+
+#[derive(Debug)]
+#[derive(PartialEq)]
 struct AB(u32, u32);
 
 pub fn start_game() {
