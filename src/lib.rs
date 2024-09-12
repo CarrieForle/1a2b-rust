@@ -1,4 +1,5 @@
 use rand;
+use std::io::stdin;
 
 #[cfg(test)]
 mod tests {
@@ -121,8 +122,33 @@ impl From<AB> for String {
     }
 }
 
-pub fn start_game() {
-    
+pub fn run_game() -> Result<(), &'static str> {
+    let answer = pick();
+    let mut tries = 0;
+    let mut guess = "";
+
+    while guess != answer {
+        tries += 1;
+        print!("Make your #{} guess = ", tries);
+
+        while true {
+            if let Err(_) = stdin().read_line(&mut guess) {
+                print!("Failed to read your guess. Please try again = ");
+
+                continue;
+            }
+
+            match AB::new(&guess, &answer) {
+                
+            }
+        }
+
+        println!("{}", );
+    }
+
+    println!("The answer is {answer}! You guess it in {tries} tries!");
+
+    Ok(())
 }
 
 fn pick() -> String {
