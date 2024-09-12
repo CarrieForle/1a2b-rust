@@ -1,5 +1,5 @@
 use rand;
-use std::io::stdin;
+use std::fmt;
 
 #[cfg(test)]
 mod tests {
@@ -116,9 +116,9 @@ impl AB {
     }
 }
 
-impl From<AB> for String {
-    fn from(ab: AB) -> String {
-        format!("{}a{}b", ab.0, ab.1)
+impl fmt::Display for AB {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}a{}b", self.0, self.1)
     }
 }
 
