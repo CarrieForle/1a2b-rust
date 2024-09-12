@@ -31,12 +31,12 @@ mod tests {
 
     #[test]
     fn ab_validation_work() {
-        assert!(AB::is_valid("1234"));
-        assert!(AB::is_valid("0194"));
-        assert!(!AB::is_valid("-194"));
-        assert!(!AB::is_valid("fjkl"));
-        assert!(!AB::is_valid("31256"));
-        assert!(!AB::is_valid("1123"));
+        assert!(AB::is_valid("1234").is_ok());
+        assert!(AB::is_valid("0194").is_ok());
+        assert!(AB::is_valid("-194").is_err());
+        assert!(AB::is_valid("fjkl").is_err());
+        assert!(AB::is_valid("31256").is_err());
+        assert!(AB::is_valid("1123").is_err());
     }
 
     #[test]
@@ -50,8 +50,8 @@ mod tests {
 
     #[test]
     fn string_from_ab_work() {
-        assert_eq!("1a2b", String::from(AB(1, 2)));
-        assert_eq!("3a6b", String::from(AB(3, 6)));
+        assert_eq!("1a2b", format!("{}", AB(1, 2)));
+        assert_eq!("3a6b", format!("{}", AB(3, 6)));
     }
 }
 
