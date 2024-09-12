@@ -5,25 +5,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_ab_good() {
-        assert_eq!(Ok(AB(1, 1)), read_ab("1a1b"));
-        assert_eq!(Ok(AB(2, 2)), read_ab("2A2B"));
-        assert_eq!(Ok(AB(0, 4)), read_ab("4B"));
-        assert_eq!(Ok(AB(3, 0)), read_ab("3a"));
-        assert_eq!(Ok(AB(0, 0)), read_ab("0"));
-        assert_eq!(Ok(AB(0, 0)), read_ab("0a0b"));
-    }
-    
-    #[test]
-    fn test_ab_fail() {
-        assert!(read_ab("-1a5b").is_err());
-        assert!(read_ab("").is_err());
-        assert!(read_ab("4a2b").is_err());
-        assert!(read_ab("3a1b").is_err());
-        assert!(read_ab("what the fuck").is_err());
-    }
-
-    #[test]
     fn test_pick() {
         for _ in 0..10000 {
             let picked = pick();
@@ -44,6 +25,31 @@ mod tests {
 
             assert!(is_not_duplicated, "{picked} is duplicated");
         }
+    }
+
+    #[test]
+    fn ab_validation_work() {
+        assert!(AB::is_valid("1234"));
+        assert!(AB::is_valid("0194"));
+        assert!(!AB::is_valid("-194"));
+        assert!(!AB::is_valid("fjkl"));
+        assert!(!AB::is_valid("31256"));
+        assert!(!AB::is_valid("1123"));
+    }
+
+    #[test]
+    fn get_ab_work() {
+        assert_eq!(Ok(AB(0, 0)), AB::new("1234", "5678"));
+        assert_eq!(Ok(AB(2, 1)), AB::new("1235", "1243"));
+        assert_eq!(Ok(AB(4, 0)), AB::new("1234", "1234"));
+        assert_eq!(Ok(AB(0, 4)), AB::new("1423", "2341"));
+        assert!(AB::new("1211", "1243").is_err());
+    }
+
+    #[test]
+    fn string_from_ab_work() {
+        assert_eq!("1a2b", String::from(AB(1, 2)));
+        assert_eq!("3a6b", String::from(AB(3, 6)));
     }
 }
 
