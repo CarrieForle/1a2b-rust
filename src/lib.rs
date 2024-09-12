@@ -60,40 +60,35 @@ mod tests {
 struct AB(u32, u32);
 
 impl AB {
-    fn is_valid(input: &str) -> bool {
+    fn is_valid(input: &str) -> Result<(), &'static str> {
         if input.len() != 4 {
-            return false;
+            return Err("invalid");
         }
 
         if input.parse::<u32>().is_err() {
-            return false;
+            return Err("not a number")
         }
 
         let v: &[u8] = input.as_bytes();
 
         if v[0] == '-' as u8 {
-            return false;
+            return Err("not positive");
         }
 
         for i in 0..4 {
             for j in i+1..4 {
                 if v[i] == v[j] {
-                    return false;
+                    return Err("found duplicate digit")
                 }
             }
         }
 
-        true
+        Ok(())
     }
 
     fn new(guess: &str, answer: &str) -> Result<AB, &'static str> {
-        if !AB::is_valid(guess) {
-            return Err("Invalid guess");
-        }
-        
-        if !AB::is_valid(answer) {
-            return Err("Invalid answer");
-        }
+        AB::is_valid(guess)?;
+        AB::is_valid(answer)?;
 
         let guess = guess.bytes();
         let answer = answer.bytes();
