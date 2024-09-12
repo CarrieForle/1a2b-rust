@@ -55,7 +55,13 @@ pub fn start_game() {
     
 }
 
-fn get_ab(ab_str: &str) -> Result<AB, &'static str> {
+impl From<AB> for String {
+    fn from(ab: AB) -> String {
+        format!("{}a{}b", ab.0, ab.1)
+    }
+}
+
+pub fn start_game() {
     
 }
 
