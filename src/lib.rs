@@ -1,4 +1,5 @@
 use rand;
+use std::io::{Error, Write, stdin, stdout};
 use std::fmt;
 
 #[cfg(test)]
@@ -114,6 +115,10 @@ impl AB {
 
         Ok(AB(a, b))
     }
+
+    fn is_won(&self) -> bool {
+        *self == AB(4, 0)
+    }
 }
 
 impl fmt::Display for AB {
@@ -122,31 +127,51 @@ impl fmt::Display for AB {
     }
 }
 
-pub fn run_game() -> Result<(), &'static str> {
+pub fn run_game() -> Result<(), Error> {
     let answer = pick();
     let mut tries = 0;
-    let mut guess = "";
+    let mut guess = String::new();
 
-    while guess != answer {
+    let mut res = AB(0, 0);
+    println!("Answer = {answer}");
+
+    while !res.is_won() {
         tries += 1;
-        print!("Make your #{} guess = ", tries);
 
-        while true {
-            if let Err(_) = stdin().read_line(&mut guess) {
-                print!("Failed to read your guess. Please try again = ");
+        print!("Make your #{} guess = ", tries);
+        stdout().flush()?;
+
+        loop {
+            guess.clear();
+
+            if let Err(e) = stdin().read_line(&mut guess) {
+                print!("Failed to read your guess: {e} Please try again = ");
 
                 continue;
             }
 
-            match AB::new(&guess, &answer) {
-                
+            let guess = guess.trim_end();
+
+            if guess.is_empty() {
+                continue;
             }
+
+            match AB::new(guess, &answer) {
+                Ok(ab) => res = ab,
+                Err(e) => {
+                    println!("Error: {e}. Please try again!");
+
+                    continue;
+                },
+            }
+
+            break;
         }
 
-        println!("{}", );
+        println!("{res}");
     }
 
-    println!("The answer is {answer}! You guess it in {tries} tries!");
+    println!("The answer is {answer}! You guessed it in {tries} {}!", if tries == 1 { "try" } else { "tries" });
 
     Ok(())
 }
