@@ -51,8 +51,62 @@ mod tests {
 #[derive(PartialEq)]
 struct AB(u32, u32);
 
-pub fn start_game() {
-    
+impl AB {
+    fn is_valid(input: &str) -> bool {
+        if input.len() != 4 {
+            return false;
+        }
+
+        if input.parse::<u32>().is_err() {
+            return false;
+        }
+
+        let v: &[u8] = input.as_bytes();
+
+        if v[0] == '-' as u8 {
+            return false;
+        }
+
+        for i in 0..4 {
+            for j in i+1..4 {
+                if v[i] == v[j] {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
+    fn new(guess: &str, answer: &str) -> Result<AB, &'static str> {
+        if !AB::is_valid(guess) {
+            return Err("Invalid guess");
+        }
+        
+        if !AB::is_valid(answer) {
+            return Err("Invalid answer");
+        }
+
+        let guess = guess.bytes();
+        let answer = answer.bytes();
+
+        let mut a = 0;
+        let mut b = 0;
+
+        for (i, guess_byte) in guess.enumerate() {
+            for (j, answer_byte) in answer.clone().enumerate() {
+                if guess_byte == answer_byte {
+                    if i == j {
+                        a += 1;
+                    } else {
+                        b += 1;
+                    }
+                }
+            }
+        }
+
+        Ok(AB(a, b))
+    }
 }
 
 impl From<AB> for String {
