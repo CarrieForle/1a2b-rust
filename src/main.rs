@@ -1,3 +1,7 @@
+use playground::run_game;
+
 fn main() {
-    playground::start_game();
+    if let Err(e) = run_game() {
+        eprintln!("An error occured during the game: {e}");
+    }
 }
