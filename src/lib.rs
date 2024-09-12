@@ -128,7 +128,6 @@ pub fn run_game() -> Result<(), Error> {
     let mut guess = String::new();
 
     let mut res = AB(0, 0);
-    println!("Answer = {answer}");
 
     while !res.is_won() {
         tries += 1;
