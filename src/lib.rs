@@ -162,7 +162,7 @@ pub fn run_game() -> Result<(), Error> {
             break;
         }
 
-        println!("{res}");
+        print!("{res} ");
     }
 
     println!("The answer is {answer}! You guessed it in {tries} {}!", if tries == 1 { "try" } else { "tries" });
